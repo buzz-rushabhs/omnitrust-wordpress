@@ -458,6 +458,13 @@ jQuery(document).ready(function($) {
 				$(this).parent().hide();
 			}
 		});
+
+		/* Update hero heading wording - requested 2026-07-22 */
+		$('h1, h2, h3').each(function() {
+			if ($(this).text().trim() === 'Securing What Matters') {
+				$(this).text('Securing the Entire Spectrum of Trust');
+			}
+		});
 	});
 });
 
