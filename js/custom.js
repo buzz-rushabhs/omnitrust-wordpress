@@ -496,6 +496,11 @@ jQuery(document).ready(function($) {
 				heading: 'Platform — Trust Lifecycle Management',
 				links: [{ text: 'Trust Lifecycle Management', href: $platformLi.children('a').attr('href') }]
 					.concat(linksFrom($platformLi.children('ul')))
+					// These two don't have live pages on the site yet - placeholder link until real pages exist (requested explicitly 2026-07-22)
+					.concat([
+						{ text: 'AI Lifecycle Management (ALM)', href: '#' },
+						{ text: 'Certify: Cyber Risk & Regulatory Assessment', href: '#' }
+					])
 			});
 
 			// Resources
