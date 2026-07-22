@@ -465,6 +465,115 @@ jQuery(document).ready(function($) {
 				$(this).text('Securing the Entire Spectrum of Trust');
 			}
 		});
+
+		/* New full-screen dark hamburger menu: build a Platform/Resources/Our Industries/
+		   Our Solutions/Company two-column layout out of the existing menu links, and hide
+		   the site's original popup menu markup via CSS - requested 2026-07-22 */
+		function build_custom_mobile_menu() {
+			var $popup = $('.elementor-location-popup.elementor-245');
+			if (!$popup.length || $popup.find('.custom-mobile-menu').length) {
+				return;
+			}
+
+			// Pull real links straight out of the existing (hidden) menu markup so nothing is invented.
+			var sections = [];
+
+			function linksFrom($ul) {
+				var out = [];
+				$ul.find('> li > a').each(function() {
+					out.push({ text: $(this).text().trim(), href: $(this).attr('href') });
+				});
+				return out;
+			}
+
+			// Platform
+			var $platformLi = $popup.find('.elementor-element-2d6cc4f a.elementor-item').filter(function() {
+				return $(this).text().trim() === 'Our Platform (TLM)';
+			}).first().closest('li');
+			sections.push({
+				key: 'platform',
+				label: 'Platform',
+				heading: 'Platform — Trust Lifecycle Management',
+				links: [{ text: 'Trust Lifecycle Management', href: $platformLi.children('a').attr('href') }]
+					.concat(linksFrom($platformLi.children('ul')))
+			});
+
+			// Resources
+			var $resourcesLi = $popup.find('.elementor-element-2d6cc4f a.elementor-item').filter(function() {
+				return $(this).text().trim() === 'Resources';
+			}).first().closest('li');
+			sections.push({
+				key: 'resources',
+				label: 'Resources',
+				heading: 'Resources',
+				links: linksFrom($resourcesLi.children('ul'))
+			});
+
+			// Our Industries (already its own widget)
+			sections.push({
+				key: 'industries',
+				label: 'Our Industries',
+				heading: 'Our Industries',
+				links: linksFrom($popup.find('.elementor-element-d1ff02b ul').first())
+			});
+
+			// Our Solutions (already its own widget)
+			sections.push({
+				key: 'solutions',
+				label: 'Our Solutions',
+				heading: 'Our Solutions',
+				links: linksFrom($popup.find('.elementor-element-22ef50b ul').first())
+			});
+
+			// Company
+			var $companyLi = $popup.find('.elementor-element-2d6cc4f a.elementor-item').filter(function() {
+				return $(this).text().trim() === 'Company';
+			}).first().closest('li');
+			sections.push({
+				key: 'company',
+				label: 'Company',
+				heading: 'Company',
+				links: linksFrom($companyLi.children('ul'))
+			});
+
+			var $left = $('<div class="custom-mobile-menu-left"></div>');
+			var $right = $('<div class="custom-mobile-menu-right"></div>');
+
+			function renderRight(section) {
+				var $heading = $('<div class="cmm-right-heading"></div>').text(section.heading);
+				var $ul = $('<ul></ul>');
+				section.links.forEach(function(link) {
+					if (!link.href || !link.text) { return; }
+					$ul.append($('<li></li>').append($('<a></a>').attr('href', link.href).text(link.text)));
+				});
+				$right.empty().append($heading).append($ul);
+			}
+
+			sections.forEach(function(section, i) {
+				var $item = $('<div class="cmm-item"></div>')
+					.attr('data-key', section.key)
+					.append($('<span></span>').text(section.label))
+					.append($('<span class="cmm-chevron">&#8250;</span>'));
+				if (i === 0) { $item.addClass('active'); }
+				$item.on('click', function() {
+					$left.find('.cmm-item').removeClass('active');
+					$item.addClass('active');
+					renderRight(section);
+				});
+				$left.append($item);
+			});
+
+			renderRight(sections[0]);
+
+			var $menu = $('<div class="custom-mobile-menu"></div>').append($left).append($right);
+			$popup.find('.elementor-element-2949b31').append($menu);
+		}
+
+		$(document).on('click', '#menu-icon', function() {
+			setTimeout(build_custom_mobile_menu, 50);
+		});
+		// Also build eagerly in case the popup markup is already present in the DOM
+		build_custom_mobile_menu();
 	});
 });
 

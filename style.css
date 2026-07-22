@@ -23,3 +23,145 @@ p{
 header .elementor-element-83dae0a {
 	display: flex !important;
 }
+
+/* ==========================================================================
+   New full-screen dark mobile/hamburger menu redesign - requested 2026-07-22
+   ========================================================================== */
+
+/* Whole popup gets a dark charcoal background and light text */
+.elementor-location-popup.elementor-245,
+.elementor-location-popup .elementor-element-825aea4 {
+	background-color: #101012 !important;
+}
+
+.elementor-location-popup .elementor-element-825aea4 * {
+	color: #F4F4F5;
+}
+
+/* Header row inside the popup (logo / contact / close) stays visible, transparent so the dark bg shows through */
+.elementor-location-popup .elementor-element-1155bae {
+	background-color: transparent !important;
+	border-bottom: 1px solid #2a2a2e;
+}
+
+/* Contact Us button in the popup header - add a right-pointing arrow after the label */
+.elementor-location-popup .elementor-element-ea0386b .elementor-button-text::after {
+	content: "\2192";
+	margin-left: 6px;
+}
+.elementor-location-popup .elementor-element-ea0386b .elementor-button {
+	color: #F4F4F5;
+	border: 1px solid #F4F4F5;
+}
+
+/* Close (X) button styled as a white square */
+.elementor-location-popup .elementor-element-fd14443 .elementor-button {
+	background-color: #ffffff;
+	border-radius: 4px;
+	width: 36px;
+	height: 36px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.elementor-location-popup .elementor-element-fd14443 svg path {
+	stroke: #09090B !important;
+}
+
+/* Hide the site's original popup content once our custom two-column menu is built by JS */
+.elementor-location-popup .elementor-element-2949b31 > .elementor-element-6d1a73f > .elementor-heading-title,
+.elementor-location-popup .elementor-element-2d6cc4f,
+.elementor-location-popup .elementor-element-26d0d16 {
+	display: none !important;
+}
+
+/* Our custom two-column menu, injected by JS */
+.custom-mobile-menu {
+	display: flex;
+	width: 100%;
+	gap: 48px;
+	padding: 32px 24px;
+	box-sizing: border-box;
+}
+
+.custom-mobile-menu-left {
+	flex: 0 0 260px;
+	display: flex;
+	flex-direction: column;
+}
+
+.custom-mobile-menu-left .cmm-item {
+	font-size: 22px;
+	padding: 14px 16px;
+	border-radius: 6px;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	color: #E4E4E7;
+}
+
+.custom-mobile-menu-left .cmm-item.active {
+	background-color: rgba(255,255,255,0.08);
+	color: #ffffff;
+}
+
+.custom-mobile-menu-left .cmm-item .cmm-chevron {
+	opacity: 0;
+	transition: opacity 0.15s ease;
+}
+
+.custom-mobile-menu-left .cmm-item.active .cmm-chevron {
+	opacity: 1;
+}
+
+.custom-mobile-menu-right {
+	flex: 1 1 auto;
+	min-width: 0;
+}
+
+.custom-mobile-menu-right .cmm-right-heading {
+	font-size: 20px;
+	color: #ffffff;
+	margin-bottom: 16px;
+	font-weight: 600;
+}
+
+.custom-mobile-menu-right ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.custom-mobile-menu-right li {
+	border-bottom: 1px solid #2a2a2e;
+}
+
+.custom-mobile-menu-right li:last-child {
+	border-bottom: none;
+}
+
+.custom-mobile-menu-right a {
+	display: block;
+	padding: 14px 0;
+	color: #D4D4D8;
+	text-decoration: none;
+	font-size: 16px;
+}
+
+.custom-mobile-menu-right a:hover {
+	color: #ffffff;
+}
+
+@media (max-width: 780px) {
+	.custom-mobile-menu {
+		flex-direction: column;
+		gap: 24px;
+	}
+	.custom-mobile-menu-left {
+		flex: none;
+	}
+	.custom-mobile-menu-left .cmm-item {
+		font-size: 18px;
+	}
+}
