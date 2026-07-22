@@ -451,6 +451,13 @@ jQuery(document).ready(function($) {
 			pauseOnFocus: false,
 			variableWidth: true
 		});
+
+		/* Remove "Discovers hidden assets" text from icon list - requested 2026-07-22 */
+		$('.elementor-icon-list-text').each(function() {
+			if ($(this).text().trim() === 'Discovers hidden assets') {
+				$(this).parent().hide();
+			}
+		});
 	});
 });
 
