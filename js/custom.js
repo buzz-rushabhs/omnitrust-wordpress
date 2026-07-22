@@ -247,10 +247,6 @@ jQuery(document).ready(function($) {
         });
     });
 
-    if(!$('body').hasClass('page-id-6') && !$('body').hasClass('page-id-1172') && !$('body').hasClass('page-id-1174') && !$('body').hasClass('page-id-460') && !$('body').hasClass('page-id-464')){
-    	$('header .elementor-widget-theme-site-logo img').attr('src','https://iss.buzzinga.co/wp-content/uploads/2025/11/iss-logo.svg');
-    }
-
     $(window).on("scroll", function () {
 	    let scrollPos = $(window).scrollTop();
 	    let headerHeight = $(".fixed-top").outerHeight();
@@ -258,28 +254,9 @@ jQuery(document).ready(function($) {
 	    $(".page-content > div > div, footer > div, header > div:last-of-type").each(function () {
 	        let sectionTop = $(this).offset().top - headerHeight;
 	        let sectionBottom = sectionTop + $(this).outerHeight();
-	        lightArr = ['rgba(0, 0, 0, 0)','rgb(228, 228, 231)'];
 
 	        if (scrollPos >= sectionTop && scrollPos < sectionBottom) {
 	            $(this).addClass("active");
-	            var bg = $(this).css('background-color');
-	            if($('body').hasClass('page-id-6') || $('body').hasClass('page-id-1172') || $('body').hasClass('page-id-1174') || $('body').hasClass('page-id-460') || $('body').hasClass('page-id-464')){
-	            	if(lightArr.includes(bg)){
-		            	$('header .elementor-widget-theme-site-logo img').attr('src','https://iss.buzzinga.co/wp-content/uploads/2025/11/iss-logo.svg');
-		            }
-		            else{
-		            	$('header .elementor-widget-theme-site-logo img').attr('src','https://iss.buzzinga.co/wp-content/uploads/2025/11/iss-logo-white.svg');
-		            }	
-	            }
-	            else{
-	            	if(lightArr.includes(bg)){
-		            	$('header .elementor-widget-theme-site-logo img').attr('src','https://iss.buzzinga.co/wp-content/uploads/2025/11/iss-logo.svg');
-		            }
-		            else{
-		            	$('header .elementor-widget-theme-site-logo img').attr('src','https://iss.buzzinga.co/wp-content/uploads/2025/11/iss-logo-white.svg');
-		            }
-	            }
-	            
 	        }
 	    });
 	});
