@@ -19,7 +19,7 @@ p{
 	margin-bottom: 0;
 }
 
-/* Hide standalone header "Contact Us" button (separate from the expandable nav menu) - requested 2026-07-22 */
+/* Keep header "Contact Us" button visible beside the menu icon at all times, default and open menu states - requested 2026-07-22 */
 header .elementor-element-83dae0a {
-	display: none !important;
+	display: flex !important;
 }
