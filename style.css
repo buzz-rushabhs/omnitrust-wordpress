@@ -18,3 +18,8 @@ Tags: flexible-header, custom-colors, custom-menu, custom-logo, editor-style, fe
 p{
 	margin-bottom: 0;
 }
+
+/* Hide standalone header "Contact Us" button (separate from the expandable nav menu) - requested 2026-07-22 */
+header .elementor-element-83dae0a {
+	display: none !important;
+}
