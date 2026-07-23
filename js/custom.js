@@ -452,13 +452,6 @@ jQuery(document).ready(function($) {
 			variableWidth: true
 		});
 
-		/* Remove "Discovers hidden assets" text from icon list - requested 2026-07-22 */
-		$('.elementor-icon-list-text').each(function() {
-			if ($(this).text().trim() === 'Discovers hidden assets') {
-				$(this).parent().hide();
-			}
-		});
-
 		/* New full-screen dark hamburger menu: build a Platform/Resources/Our Industries/
 		   Our Solutions/Company two-column layout out of the existing menu links, and hide
 		   the site's original popup menu markup via CSS - requested 2026-07-22 */
