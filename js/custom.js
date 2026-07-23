@@ -611,6 +611,17 @@ jQuery(document).ready(function($) {
 		});
 		// Also try eagerly in case the popup markup is already present in the DOM
 		try_build_custom_mobile_menu();
+
+		// Build as soon as Elementor itself says this popup is ready, instead of relying
+		// only on the fixed-duration retry loop above. On a fresh page load the popup's
+		// own content can still be rendering when the click retry loop times out, so this
+		// event-driven hook is the primary trigger; the click-based retry loop above stays
+		// in place as a fallback in case this event fires before the source menu markup is ready.
+		$(document).on('elementor/popup/show', function(event, id) {
+			if (id === 245) {
+				try_build_custom_mobile_menu();
+			}
+		});
 	});
 });
 
