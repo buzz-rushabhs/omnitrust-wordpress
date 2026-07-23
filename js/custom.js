@@ -457,8 +457,39 @@ jQuery(document).ready(function($) {
 		   the site's original popup menu markup via CSS - requested 2026-07-22 */
 		function build_custom_mobile_menu() {
 			var $popup = $('.elementor-location-popup.elementor-245');
-			if (!$popup.length || $popup.find('.custom-mobile-menu').length) {
-				return;
+			if (!$popup.length) {
+				return false; // popup not in the DOM yet - caller should retry
+			}
+
+			// If a menu was already built successfully (has real items), don't rebuild.
+			var $existing = $popup.find('.custom-mobile-menu');
+			if ($existing.length && $existing.find('.cmm-item').length) {
+				return true;
+			}
+
+			// Bail out (and let the caller retry later) unless the source markup this
+			// function reads from is actually present - this is what was racing before:
+			// a fixed 50ms delay would sometimes fire before the popup's own content
+			// finished rendering, producing a menu with no links that then never retried.
+			var $platformLiCheck = $popup.find('.elementor-element-2d6cc4f a.elementor-item').filter(function() {
+				return $(this).text().trim() === 'Our Platform (TLM)';
+			}).first().closest('li');
+			var $resourcesLiCheck = $popup.find('.elementor-element-2d6cc4f a.elementor-item').filter(function() {
+				return $(this).text().trim() === 'Resources';
+			}).first().closest('li');
+			var $companyLiCheck = $popup.find('.elementor-element-2d6cc4f a.elementor-item').filter(function() {
+				return $(this).text().trim() === 'Company';
+			}).first().closest('li');
+			var industriesReady = $popup.find('.elementor-element-d1ff02b ul').first().find('> li > a').length > 0;
+			var solutionsReady = $popup.find('.elementor-element-22ef50b ul').first().find('> li > a').length > 0;
+
+			if (!$platformLiCheck.length || !$resourcesLiCheck.length || !$companyLiCheck.length || !industriesReady || !solutionsReady) {
+				return false; // source markup not ready yet - caller should retry
+			}
+
+			// If a previous attempt left behind an empty shell, clear it before rebuilding.
+			if ($existing.length) {
+				$existing.remove();
 			}
 
 			// Pull real links straight out of the existing (hidden) menu markup so nothing is invented.
@@ -558,13 +589,28 @@ jQuery(document).ready(function($) {
 
 			var $menu = $('<div class="custom-mobile-menu"></div>').append($left).append($right);
 			$popup.find('.elementor-element-2949b31').append($menu);
+			return true;
+		}
+
+		// Retry/poll instead of a single fixed delay: keep trying until the popup's
+		// source menu markup is confirmed present and the menu actually builds, since
+		// under real network/server latency a single 50ms check could fire too early
+		// and leave the panel permanently empty.
+		function try_build_custom_mobile_menu(attemptsLeft) {
+			if (typeof attemptsLeft === 'undefined') { attemptsLeft = 60; } // ~60 * 75ms = 4.5s max
+			var built = build_custom_mobile_menu();
+			if (!built && attemptsLeft > 0) {
+				setTimeout(function() {
+					try_build_custom_mobile_menu(attemptsLeft - 1);
+				}, 75);
+			}
 		}
 
 		$(document).on('click', '#menu-icon', function() {
-			setTimeout(build_custom_mobile_menu, 50);
+			try_build_custom_mobile_menu();
 		});
-		// Also build eagerly in case the popup markup is already present in the DOM
-		build_custom_mobile_menu();
+		// Also try eagerly in case the popup markup is already present in the DOM
+		try_build_custom_mobile_menu();
 	});
 });
 
